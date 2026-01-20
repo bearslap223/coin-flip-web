@@ -78,6 +78,12 @@ const Coin3D: React.FC<Coin3DProps> = ({ isFlipping, result, headsLabel, tailsLa
     }
   }, [isFlipping, hasFlipped]);
 
+  useEffect(() => {
+    if (isFlipping) {
+      startTime.current = null;
+    }
+  }, [isFlipping]);
+
   useFrame((state) => {
     if (!meshRef.current) return;
     const time = state.clock.getElapsedTime();
@@ -94,7 +100,7 @@ const Coin3D: React.FC<Coin3DProps> = ({ isFlipping, result, headsLabel, tailsLa
         });
       }
 
-      const elapsed = time - startTime.current;
+      const elapsed = time - (startTime.current || time);
       const progress = Math.min(elapsed / DURATION, 1);
       const easeProgress = 1 - Math.pow(1 - progress, 4);
       
@@ -139,7 +145,7 @@ const Coin3D: React.FC<Coin3DProps> = ({ isFlipping, result, headsLabel, tailsLa
         
         // 상하 둥둥 떠다니는 움직임 (Sine wave)
         const floatY = Math.sin(time * 1.2) * 0.12;
-        meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, BASE_Y + floatY, 0.2);
+        meshRef.current.position.y = BASE_Y + floatY;
       }
 
       if (shakeRef.current > 0) {
