@@ -132,7 +132,7 @@ const App: React.FC = () => {
         </aside>
 
         {/* History Panel - lg 미만에서는 showConfig가 true일 때 Settings 아래에 노출 */}
-        <aside className={`absolute left-4 right-4 lg:left-auto lg:right-8 top-[380px] lg:top-24 lg:w-72 pointer-events-auto transition-all duration-700 ease-in-out z-30
+        <aside className={`absolute left-4 right-4 lg:left-auto lg:right-8 top-[380px] lg:top-24 lg:w-72 pointer-events-auto transition-all duration-700 ease-in-out z-10
           ${isFlipping ? 'opacity-0 translate-y-4 lg:translate-x-[120%]' : 'opacity-100 translate-y-0'}
           ${!showConfig ? 'max-lg:hidden' : 'block'}`}>
           <div className="lg:h-[calc(100vh-200px)] max-h-[300px] lg:max-h-none bg-slate-900/60 backdrop-blur-2xl p-5 lg:p-6 rounded-[1.5rem] lg:rounded-[2rem] border border-white/10 shadow-2xl flex flex-col overflow-hidden">
@@ -162,11 +162,11 @@ const App: React.FC = () => {
         </aside>
 
         {/* Action Button Layer */}
-        <div className={`absolute bottom-8 lg:bottom-12 left-1/2 -translate-x-1/2 w-full max-w-[280px] lg:max-w-xs px-4 pointer-events-auto transition-all duration-700 ${isFlipping ? 'opacity-0 translate-y-20 scale-90' : 'opacity-100 translate-y-0 scale-100'}`}>
+        <div className={`absolute left-4 right-4 lg:left-auto lg:right-8 top-[380px] lg:top-24 lg:w-72 pointer-events-auto transition-all duration-700 ease-in-out z-20 ${isFlipping ? 'opacity-0 translate-y-4 lg:translate-x-[120%]' : 'opacity-100 translate-y-0'} ${!showConfig ? 'max-lg:hidden' : 'block'}`}>
           <button
             onClick={handleFlip}
             disabled={isFlipping}
-            className="w-full py-4 lg:py-5 bg-white text-black hover:bg-emerald-400 rounded-full text-base lg:text-lg font-black tracking-[0.3em] shadow-[0_20px_50px_rgba(16,185,129,0.2)] active:scale-[0.95] transition-all uppercase"
+            className="w-full py-3 lg:py-4 bg-white text-black hover:bg-emerald-400 rounded-full text-sm lg:text-base font-black tracking-[0.3em] shadow-[0_20px_50px_rgba(16,185,129,0.2)] active:scale-[0.95] transition-all uppercase"
           >
             Flip
           </button>
