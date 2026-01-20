@@ -126,10 +126,6 @@
             <div id="action-layer" class="absolute bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 ...">
             <button id="flip-button" ...>Flip</button>
             </div>
-
-            <div id="ad-container" class="absolute bottom-0 w-full h-20 bg-black/50 backdrop-blur-md flex items-center justify-center border-t border-white/10 z-50">
-            <p class="text-[10px] text-slate-500 font-mono uppercase tracking-widest">Advertisement Space</p>
-            </div>
         </main>
 
         <div id="ad-container" style="position: fixed !important; bottom: 0 !important; left: 0 !important; width: 100% !important; height: 80px !important; background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(15px) !important; display: flex !important; align-items: center !important; justify-content: center !important; border-top: 1px solid rgba(255,255,255,0.2) !important; z-index: 999999 !important; pointer-events: auto !important;">
@@ -368,6 +364,59 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
+        /* ... 기존 코드 (window.addEventListener('resize', ...) 등) ... */
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // === 여기에 광고 강제 유지 코드를 붙여넣으세요 ===
+        const injectAd = () => {
+            if (document.getElementById('permanent-ad')) return;
+
+            const adDiv = document.createElement('div');
+            adDiv.id = 'permanent-ad';
+            adDiv.style.cssText = `
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 80px !important;
+                background: rgba(0,0,0,0.9) !important;
+                backdrop-filter: blur(15px) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                border-top: 1px solid rgba(255,255,255,0.2) !important;
+                z-index: 9999999 !important;
+                pointer-events: auto !important;
+            `;
+            adDiv.innerHTML = `<p style="color: #94a3b8; font-size: 11px; font-family: monospace; letter-spacing: 3px; font-weight: bold; margin: 0;">ADVERTISEMENT SPACE</p>`;
+            document.body.appendChild(adDiv);
+        };
+
+        window.addEventListener('load', injectAd);
+        setTimeout(injectAd, 500);
+        // ============================================
+
+    </script> ```
+
+### 2. 코드가 작동하기 위해 반드시 지워야 할 부분
+
+현재 파일에 중복되거나 충돌을 일으키는 코드들이 있어, 아래 사항들을 **반드시 삭제**해야 광고창이 정상적으로 고정됩니다.
+
+* **110~119행 사이의 중복 태그 삭제**: HTML 본문에 직접 작성했던 `<div id="ad-container">...</div>` 태그들을 모두 지워주세요. 자바스크립트가 자동으로 생성해주기 때문에 충돌이 날 수 있습니다.
+* **223행의 유령 파일 호출 삭제**: 맨 마지막 줄의 `<script type="module" src="/index.tsx"></script>`를 반드시 삭제하세요. 이 줄이 있으면 브라우저가 존재하지 않는 파일을 찾느라 화면을 초기화시켜 광고창을 지워버립니다.
+
+### 3. 왜 이 위치인가요?
+* **실행 순서**: Three.js 엔진이 화면을 다 그리고 난 뒤에 자바스크립트가 광고창을 "마지막"으로 덧씌워야 사라지지 않습니다.
+* **우선순위**: `z-index: 9999999`와 `!important` 설정 덕분에 3D 동전 화면보다 항상 위에 떠 있게 됩니다.
+
+
+
+이렇게 수정하고 `git push`를 하시면, 0.1초 만에 사라지던 현상 없이 화면 하단에 검은색 광고 바가 안정적으로 고정될 것입니다. 적용 후 확인해 보시고 말씀해 주세요!
     </script>
 <script type="module" src="/index.tsx"></script>
 </body>
