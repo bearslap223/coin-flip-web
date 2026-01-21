@@ -394,7 +394,18 @@
                 z-index: 9999999 !important;
                 pointer-events: auto !important;
             `;
-            adDiv.innerHTML = `<p style="color: #94a3b8; font-size: 11px; font-family: monospace; letter-spacing: 3px; font-weight: bold; margin: 0;">ADVERTISEMENT SPACE</p>`;
+            // injectAd 함수 내부의 innerHTML 부분을 아래와 같이 수정하세요.
+            adDiv.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px;">
+                    <p style="color: #94a3b8; font-size: 11px; font-family: sans-serif; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600;">
+                        AI Coin Master: The Most Accurate 3D Physics Coin Flip Simulator
+                    </p>
+                    <p style="color: #64748b; font-size: 9px; font-family: sans-serif; line-height: 1.4; max-width: 600px;">
+                        Experience fair decision-making with our advanced physics engine. Perfectly weighted for a true 50/50 chance. 
+                        <span style="color: #475569;">Safe, Fast, and WebGL-powered 3D Simulation.</span>
+                    </p>
+                </div>
+            `;
             document.body.appendChild(adDiv);
         };
 
