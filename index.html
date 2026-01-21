@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5761350417133195"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <meta name="google-site-verification" content="GJ8V6iYFBqCYCOuT-1rq-87hlsvJFTCZ9vd_DMyQmow" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="온라인 3D 동전 던지기 - 공정한 의사결정을 도와주는 최고의 AI 코인 플립 마스터. 커스텀 텍스트 설정 가능.">
     <meta name="keywords" content="동전던지기, 코인플립, 결정장애, 운세, 랜덤선택, 3D동전">
-    
+
     <meta property="og:title" content="AI Coin Master Pro - 3D 동전 던지기">
     <meta property="og:description" content="결정하기 힘들 땐? 가장 아름다운 3D 동전 던지기로 결정하세요!">
     <meta property="og:image" content="https://your-project.vercel.app/og-image.png">
@@ -26,37 +27,116 @@
             overflow: hidden;
             touch-action: none;
         }
+
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes aurora-storm-1 {
-          0% { transform: translate(-15%, -15%) rotate(0deg) scale(1) skew(0deg); }
-          50% { transform: translate(15%, 15%) rotate(180deg) scale(1.4) skew(10deg); }
-          100% { transform: translate(-15%, -15%) rotate(360deg) scale(1) skew(0deg); }
+            0% {
+                transform: translate(-15%, -15%) rotate(0deg) scale(1) skew(0deg);
+            }
+
+            50% {
+                transform: translate(15%, 15%) rotate(180deg) scale(1.4) skew(10deg);
+            }
+
+            100% {
+                transform: translate(-15%, -15%) rotate(360deg) scale(1) skew(0deg);
+            }
         }
+
         @keyframes aurora-storm-2 {
-          0% { transform: translate(15%, 5%) rotate(0deg) scale(1.2) skew(5deg); }
-          50% { transform: translate(-15%, -10%) rotate(-150deg) scale(0.8) skew(-10deg); }
-          100% { transform: translate(15%, 5%) rotate(-300deg) scale(1.2) skew(5deg); }
+            0% {
+                transform: translate(15%, 5%) rotate(0deg) scale(1.2) skew(5deg);
+            }
+
+            50% {
+                transform: translate(-15%, -10%) rotate(-150deg) scale(0.8) skew(-10deg);
+            }
+
+            100% {
+                transform: translate(15%, 5%) rotate(-300deg) scale(1.2) skew(5deg);
+            }
         }
+
         @keyframes aurora-storm-3 {
-          0% { transform: translate(0%, 20%) scale(1); opacity: 0.3; }
-          50% { transform: translate(10%, -10%) scale(1.5); opacity: 0.6; }
-          100% { transform: translate(0%, 20%) scale(1); opacity: 0.3; }
+            0% {
+                transform: translate(0%, 20%) scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translate(10%, -10%) scale(1.5);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translate(0%, 20%) scale(1);
+                opacity: 0.3;
+            }
         }
-        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-        .aurora-container { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at center, #050510 0%, #010103 100%); overflow: hidden; pointer-events: none; }
-        .aurora-layer { position: absolute; width: 180vmax; height: 180vmax; top: -40vmax; left: -40vmax; filter: blur(100px); opacity: 0.6; mix-blend-mode: hard-light; will-change: transform, opacity; }
-        #canvas-container { position: absolute; inset: 0; z-index: 0; }
-        
+
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .aurora-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, #050510 0%, #010103 100%);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .aurora-layer {
+            position: absolute;
+            width: 180vmax;
+            height: 180vmax;
+            top: -40vmax;
+            left: -40vmax;
+            filter: blur(100px);
+            opacity: 0.6;
+            mix-blend-mode: hard-light;
+            will-change: transform, opacity;
+        }
+
+        #canvas-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
         /* Mobile/Tablet Hidden Logic: Hidden by default, visible on Large screens(1024px+) */
-        .hidden-mobile-tablet { display: none; }
-        @media (min-width: 1024px) { .hidden-mobile-tablet { display: block !important; } }
+        .hidden-mobile-tablet {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .hidden-mobile-tablet {
+                display: block !important;
+            }
+        }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
@@ -68,314 +148,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
+
 <body>
-    <div id="root" class="fixed inset-0 bg-[#020205] text-slate-200 overflow-hidden font-sans select-none">
-        <div class="aurora-container">
-            <div class="aurora-layer bg-gradient-to-tr from-[#312e81] via-[#4c1d95] to-transparent opacity-60" style="animation: aurora-storm-1 18s infinite linear"></div>
-            <div class="aurora-layer bg-gradient-to-bl from-[#064e3b] via-[#10b981] to-transparent opacity-50" style="animation: aurora-storm-2 22s infinite linear"></div>
-            <div class="aurora-layer bg-[radial-gradient(circle_at_center,#2dd4bf,transparent)] opacity-40" style="animation: aurora-storm-3 12s infinite ease-in-out"></div>
-            <div class="aurora-layer bg-gradient-to-r from-[#1e3a8a] to-transparent opacity-30" style="animation: aurora-storm-1 25s infinite reverse linear"></div>
-        </div>
-
-        <div id="canvas-container"></div>
-
-        <!-- UI Overlay -->
-        <nav id="header-nav" class="absolute top-0 w-full h-14 lg:h-16 border-b border-white/5 bg-black/30 backdrop-blur-2xl flex items-center justify-between px-6 lg:px-8 z-50 transition-opacity duration-700">
-            <div class="flex items-center space-x-3">
-                <div class="w-7 h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-amber-400 to-orange-600 rounded-lg flex items-center justify-center font-black text-slate-900 text-[10px] lg:text-xs shadow-lg">CF</div>
-                <h1 class="font-black tracking-tighter text-sm lg:text-lg bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-500 to-yellow-600 uppercase">Coin Master Pro</h1>
-            </div>
-            <!-- Menu button visible on both Mobile and Tablet (<1024px) -->
-            <button id="toggle-config" class="lg:hidden p-2 text-slate-400 hover:text-white pointer-events-auto">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg>
-            </button>
-        </nav>
-
-        <main class="relative z-10 w-full h-full pointer-events-none">
-            <!-- Settings Panel -->
-            <aside id="config-panel" class="absolute left-4 right-4 lg:left-8 lg:right-auto top-20 lg:top-24 lg:w-72 pointer-events-auto transition-all duration-500 ease-in-out z-40 hidden-mobile-tablet">
-                <div class="bg-slate-900/60 backdrop-blur-2xl p-5 lg:p-6 rounded-[1.5rem] lg:rounded-[2rem] border border-white/10 shadow-2xl">
-                    <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-4 flex items-center">
-                        <span class="w-3 h-[1px] bg-slate-700 mr-2"></span> Settings
-                    </h2>
-                    <div class="space-y-4">
-                        <div class="space-y-1">
-                            <label class="text-[9px] font-bold text-amber-500 uppercase tracking-widest px-1">Heads Text</label>
-                            <input id="heads-input" type="text" value="GOLDEN CROWN" maxlength="15" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-amber-500 outline-none transition-all font-bold">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[9px] font-bold text-blue-400 uppercase tracking-widest px-1">Tails Text</label>
-                            <input id="tails-input" type="text" value="SILVER EAGLE" maxlength="15" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-blue-500 outline-none transition-all font-bold">
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- History Panel: Placed under settings for mobile/tablet toggle -->
-            <aside id="history-panel" class="absolute left-4 right-4 lg:left-auto lg:right-8 top-[380px] lg:top-24 lg:w-72 pointer-events-auto transition-all duration-700 ease-in-out z-30 hidden-mobile-tablet">
-                <div class="lg:h-[calc(100vh-200px)] max-h-[300px] lg:max-h-none bg-slate-900/60 backdrop-blur-2xl p-5 lg:p-6 rounded-[1.5rem] lg:rounded-[2rem] border border-white/10 shadow-2xl flex flex-col overflow-hidden">
-                    <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-4 flex items-center">
-                        <span class="w-3 h-[1px] bg-slate-700 mr-2"></span> Recent Tosses
-                    </h2>
-                    <div id="history-list" class="flex-1 space-y-2 overflow-y-auto pr-1 custom-scrollbar">
-                        <div class="h-full flex flex-col items-center justify-center opacity-20 text-[9px] font-black uppercase tracking-widest text-center py-4">No History</div>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Action Button -->
-            <div id="action-layer" class="absolute bottom-32 lg:bottom-34 left-1/2 -translate-x-1/2 ...">
-            <button id="flip-button" ...>Flip</button>
-            </div>
-        </main>
-
-        <div id="ad-container" style="position: fixed !important; bottom: 0 !important; left: 0 !important; width: 100% !important; height: 80px !important; background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(15px) !important; display: flex !important; align-items: center !important; justify-content: center !important; border-top: 1px solid rgba(255,255,255,0.2) !important; z-index: 999999 !important; pointer-events: auto !important;">
-            <p style="color: #94a3b8; font-size: 11px; font-family: monospace; letter-spacing: 3px; font-weight: bold;">ADVERTISEMENT SPACE</p>
-        </div>
-
-        <footer class="absolute bottom-3 w-full flex items-center justify-center text-[7px] lg:text-[8px] text-slate-800 font-mono tracking-[0.4em] lg:tracking-[0.6em] uppercase pointer-events-none">
-            Performance.Active // Pure_HTML_Engine_v1.0
-        </footer>
-    </div>
+    <div id="root" class="fixed inset-0 bg-[#020205] text-slate-200 overflow-hidden font-sans select-none"></div>
 
     <script type="module">
-        import * as THREE from 'three';
-
-        let audioCtx = null;
-        const getCtx = () => {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            return audioCtx;
-        };
-        const playFlipSound = () => {
-            const ctx = getCtx(); const now = ctx.currentTime;
-            const osc = ctx.createOscillator(); const gain = ctx.createGain();
-            osc.frequency.setValueAtTime(400, now); osc.frequency.exponentialRampToValueAtTime(1600, now + 0.3);
-            gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime(0.15, now + 0.05); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-            osc.connect(gain); gain.connect(ctx.destination); osc.start(now); osc.stop(now + 0.4);
-        };
-        const playLandSound = () => {
-            const ctx = getCtx(); const now = ctx.currentTime;
-            const bass = ctx.createOscillator(); const bassGain = ctx.createGain();
-            bass.type = 'triangle'; bass.frequency.setValueAtTime(150, now); bass.frequency.exponentialRampToValueAtTime(60, now + 0.15);
-            bassGain.gain.setValueAtTime(0.3, now); bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-            bass.connect(bassGain); bassGain.connect(ctx.destination); bass.start(now); bass.stop(now + 0.2);
-        };
-
-        let state = {
-            headsLabel: 'GOLDEN CROWN',
-            tailsLabel: 'SILVER EAGLE',
-            history: [],
-            isFlipping: false,
-            lastResult: null,
-            hasFlipped: false
-        };
-
-        const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 8;
-        
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.shadowMap.enabled = true;
-        container.appendChild(renderer.domElement);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
-        const spotLight = new THREE.SpotLight(0xffffff, 2);
-        spotLight.position.set(10, 10, 10);
-        spotLight.castShadow = true;
-        scene.add(spotLight);
-        const p1 = new THREE.PointLight(0x10b981, 2.5); p1.position.set(-8, 5, -2); scene.add(p1);
-        const p2 = new THREE.PointLight(0x8b5cf6, 1.5); p2.position.set(8, -5, 2); scene.add(p2);
-
-        const generateTexture = (text, bgColor, textColor) => {
-            const canvas = document.createElement('canvas');
-            canvas.width = canvas.height = 1024;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = bgColor; ctx.fillRect(0, 0, 1024, 1024);
-            const grad = ctx.createRadialGradient(512, 512, 50, 512, 512, 650);
-            grad.addColorStop(0, 'rgba(255,255,255,0.25)'); grad.addColorStop(1, 'rgba(0,0,0,0.08)');
-            ctx.fillStyle = grad; ctx.fillRect(0, 0, 1024, 1024);
-            ctx.translate(512, 512); ctx.rotate(-Math.PI / 2);
-            ctx.fillStyle = textColor; ctx.font = '900 130px Inter, sans-serif';
-            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText(text.toUpperCase(), 0, 0, 850);
-            ctx.strokeStyle = textColor; ctx.lineWidth = 14; ctx.globalAlpha = 0.15;
-            ctx.beginPath(); ctx.arc(0, 0, 460, 0, Math.PI * 2); ctx.stroke();
-            const tex = new THREE.CanvasTexture(canvas); tex.anisotropy = 16; return tex;
-        };
-
-        const geometry = new THREE.CylinderGeometry(1.6, 1.6, 0.28, 128);
-        let headsTex = generateTexture(state.headsLabel, '#fbbf24', '#451a03');
-        let tailsTex = generateTexture(state.tailsLabel, '#f1f5f9', '#0f172a');
-        
-        const materials = [
-            new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.4, roughness: 0.4 }),
-            new THREE.MeshStandardMaterial({ map: headsTex, metalness: 0.3, roughness: 0.5 }),
-            new THREE.MeshStandardMaterial({ map: tailsTex, metalness: 0.3, roughness: 0.5 })
-        ];
-        const coin = new THREE.Mesh(geometry, materials);
-        coin.rotation.x = Math.PI / 2;
-        scene.add(coin);
-
-        let startTime = null;
-        const DURATION = 2.5;
-        const JUMP_HEIGHT = 4.5;
-        const TOTAL_SPINS = 8;
-        let shake = 0;
-        let physics = { tiltX: 0, tiltY: 0, tiltZ: 0, spinY: 0, spinZ: 0 };
-
-        function animate(time) {
-            requestAnimationFrame(animate);
-            const now = time / 1000;
-
-            if (state.isFlipping) {
-                if (startTime === null) {
-                    startTime = now;
-                    physics = {
-                        tiltX: (Math.random() - 0.5) * 3,
-                        tiltY: (Math.random() - 0.5) * 4,
-                        tiltZ: (Math.random() - 0.5) * 2,
-                        spinY: (Math.random() - 0.5) * Math.PI * 6,
-                        spinZ: (Math.random() - 0.5) * Math.PI * 4
-                    };
-                }
-
-                const elapsed = now - startTime;
-                const progress = Math.min(elapsed / DURATION, 1);
-                const easeProgress = 1 - Math.pow(1 - progress, 4);
-                const jumpProgress = Math.sin(progress * Math.PI);
-
-                coin.position.y = jumpProgress * JUMP_HEIGHT;
-                const targetRotationX = state.lastResult === 'Tails' ? Math.PI : 0;
-                const targetRotationZ = state.lastResult === 'Tails' ? Math.PI : 0;
-                const dynamicWobble = Math.sin(progress * Math.PI);
-
-                coin.rotation.x = (TOTAL_SPINS * Math.PI * 2 * easeProgress) + (targetRotationX * easeProgress) + (Math.sin((1-progress)*Math.PI*0.5) * physics.tiltX);
-                coin.rotation.y = (physics.spinY * dynamicWobble) + (Math.sin((1-progress)*Math.PI*0.5) * physics.tiltY);
-                coin.rotation.z = (targetRotationZ * easeProgress) + (physics.spinZ * dynamicWobble) + (Math.sin((1-progress)*Math.PI*0.5) * physics.tiltZ);
-
-                camera.position.z = 8 + jumpProgress * 4;
-                camera.lookAt(0, coin.position.y * 0.4, 0);
-
-                if (progress >= 1) {
-                    state.isFlipping = false;
-                    state.hasFlipped = true;
-                    startTime = null;
-                    shake = 1.0;
-                    playLandSound();
-                    updateHistory(state.lastResult, state.lastResult === 'Heads' ? state.headsLabel : state.tailsLabel);
-                    document.getElementById('header-nav').style.opacity = '1';
-                    document.getElementById('config-panel').style.opacity = '1';
-                    document.getElementById('history-panel').style.opacity = '1';
-                    document.getElementById('action-layer').style.opacity = '1';
-                }
-            } else {
-                if (!state.hasFlipped) {
-                    coin.position.y = Math.sin(now * 1.5) * 0.15;
-                    coin.rotation.y += 0.006;
-                    coin.rotation.x = THREE.MathUtils.lerp(coin.rotation.x, Math.PI / 2, 0.05);
-                } else {
-                    const finalRotX = (TOTAL_SPINS * Math.PI * 2) + (state.lastResult === 'Tails' ? Math.PI : 0);
-                    const finalRotZ = (state.lastResult === 'Tails' ? Math.PI : 0);
-                    coin.rotation.x = THREE.MathUtils.lerp(coin.rotation.x, finalRotX, 0.15);
-                    coin.rotation.y = THREE.MathUtils.lerp(coin.rotation.y, 0, 0.15);
-                    coin.rotation.z = THREE.MathUtils.lerp(coin.rotation.z, finalRotZ, 0.15);
-                    const floatY = Math.sin(now * 1.2) * 0.12;
-                    coin.position.y = THREE.MathUtils.lerp(coin.position.y, floatY, 0.2);
-                }
-
-                if (shake > 0) {
-                    camera.position.x = (Math.random() - 0.5) * 0.2 * shake;
-                    camera.position.y = (Math.random() - 0.5) * 0.2 * shake;
-                    shake *= 0.9;
-                } else {
-                    camera.position.x = THREE.MathUtils.lerp(camera.position.x, 0, 0.1);
-                    camera.position.y = THREE.MathUtils.lerp(camera.position.y, 0, 0.1);
-                }
-                camera.position.z = THREE.MathUtils.lerp(camera.position.z, 8, 0.05);
-            }
-            renderer.render(scene, camera);
-        }
-        animate(0);
-
-        const flipBtn = document.getElementById('flip-button');
-        const headsInp = document.getElementById('heads-input');
-        const tailsInp = document.getElementById('tails-input');
-        const historyList = document.getElementById('history-list');
-
-        flipBtn.addEventListener('click', () => {
-            if (state.isFlipping) return;
-            if (getCtx().state === 'suspended') getCtx().resume();
-            playFlipSound();
-            state.isFlipping = true;
-            state.lastResult = Math.random() < 0.5 ? 'Heads' : 'Tails';
-            document.getElementById('header-nav').style.opacity = '0';
-            document.getElementById('config-panel').style.opacity = '0';
-            document.getElementById('history-panel').style.opacity = '0';
-            document.getElementById('action-layer').style.opacity = '0';
-        });
-
-        headsInp.addEventListener('input', (e) => {
-            state.headsLabel = e.target.value;
-            coin.material[1].map = generateTexture(state.headsLabel, '#fbbf24', '#451a03');
-        });
-
-        tailsInp.addEventListener('input', (e) => {
-            state.tailsLabel = e.target.value;
-            coin.material[2].map = generateTexture(state.tailsLabel, '#f1f5f9', '#0f172a');
-        });
-
-        function updateHistory(result, label) {
-            const item = { id: Date.now(), result, label, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
-            state.history = [item, ...state.history].slice(0, 10);
-            historyList.innerHTML = state.history.map(h => `
-                <div class="bg-black/40 p-3 lg:p-4 rounded-xl border border-white/5 flex justify-between items-center animate-fadeIn shadow-inner">
-                    <div class="min-w-0 flex-1">
-                        <p class="text-[10px] lg:text-[12px] font-black ${h.result === 'Heads' ? 'text-amber-500' : 'text-blue-500'}">${h.result.toUpperCase()}</p>
-                        <p class="text-[8px] lg:text-[9px] text-slate-400 font-bold truncate pr-2 uppercase">${h.label}</p>
-                    </div>
-                    <span class="text-[7px] lg:text-[8px] font-mono text-slate-700">${h.time}</span>
-                </div>
-            `).join('');
-        }
-
-        document.getElementById('toggle-config').addEventListener('click', () => {
-            const configPanel = document.getElementById('config-panel');
-            const historyPanel = document.getElementById('history-panel');
-            // Toggle visibility for both Mobile and Tablet
-            const isHidden = configPanel.classList.contains('hidden-mobile-tablet');
-            if (isHidden) {
-                configPanel.style.display = 'block';
-                historyPanel.style.display = 'block';
-                configPanel.classList.remove('hidden-mobile-tablet');
-                historyPanel.classList.remove('hidden-mobile-tablet');
-            } else {
-                configPanel.style.display = '';
-                historyPanel.style.display = '';
-                configPanel.classList.add('hidden-mobile-tablet');
-                historyPanel.classList.add('hidden-mobile-tablet');
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-        /* ... 기존 코드 (window.addEventListener('resize', ...) 등) ... */
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // === 여기에 광고 강제 유지 코드를 붙여넣으세요 ===
         const injectAd = () => {
             if (document.getElementById('permanent-ad')) return;
 
@@ -396,7 +174,6 @@
                 z-index: 9999999 !important;
                 pointer-events: auto !important;
             `;
-            // injectAd 함수 내부의 innerHTML 부분을 아래와 같이 수정하세요.
             adDiv.innerHTML = `
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px;">
                     <p style="color: #94a3b8; font-size: 11px; font-family: sans-serif; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600;">
@@ -413,9 +190,8 @@
 
         window.addEventListener('load', injectAd);
         setTimeout(injectAd, 500);
-        // ============================================
-
-    </script> ```
-<script type="module" src="/index.tsx"></script>
+    </script>
+    <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>
