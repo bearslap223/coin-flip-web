@@ -1,37 +1,48 @@
 
-import React, { useState, useCallback, Suspense } from 'react';
+import React, { useState, useCallback, Suspense, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PerspectiveCamera, Environment, ContactShadows } from '@react-three/drei';
 import { FlipHistory } from './types';
 import Coin3D from './components/Coin3D';
 import { playFlipSound, playLandSound, resumeAudioContext } from './services/audioService';
+import { Language, detectLanguage, getTranslations, defaultLabels, languageNames, languageFlags } from './services/i18n';
 
 const App: React.FC = () => {
-  const [headsLabel, setHeadsLabel] = useState('GOLDEN CROWN');
-  const [tailsLabel, setTailsLabel] = useState('SILVER EAGLE');
+  // Language state
+  const [language, setLanguage] = useState<Language>(() => detectLanguage());
+  const [showLangMenu, setShowLangMenu] = useState(false);
+  const t = getTranslations(language);
+
+  // Initialize labels based on detected language
+  const [headsLabel, setHeadsLabel] = useState(() => defaultLabels[detectLanguage()].heads);
+  const [tailsLabel, setTailsLabel] = useState(() => defaultLabels[detectLanguage()].tails);
   const [history, setHistory] = useState<FlipHistory[]>([]);
   const [isFlipping, setIsFlipping] = useState(false);
   const [lastResult, setLastResult] = useState<'Heads' | 'Tails' | null>(null);
   const [showConfig, setShowConfig] = useState(false);
 
+  // Update labels when language changes
+  useEffect(() => {
+    setHeadsLabel(defaultLabels[language].heads);
+    setTailsLabel(defaultLabels[language].tails);
+  }, [language]);
+
   const handleFlip = useCallback(async () => {
     if (isFlipping) return;
-    
+
     await resumeAudioContext();
     playFlipSound();
 
     const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
     const label = result === 'Heads' ? headsLabel : tailsLabel;
-    
+
     setLastResult(result);
     setIsFlipping(true);
-    
-    // 숨겨진 상태에서 플립하면 UI가 방해되지 않도록 유지
-    
+
     setTimeout(() => {
       setIsFlipping(false);
       playLandSound();
-      
+
       const newHistory: FlipHistory = {
         id: Date.now().toString(),
         result,
@@ -39,21 +50,25 @@ const App: React.FC = () => {
         timestamp: Date.now(),
       };
       setHistory(prev => [newHistory, ...prev].slice(0, 10));
-    }, 2500); 
+    }, 2500);
   }, [isFlipping, headsLabel, tailsLabel]);
+
+  const getLocalizedResult = (result: 'Heads' | 'Tails') => {
+    return result === 'Heads' ? t.heads : t.tails;
+  };
 
   return (
     <div className="fixed inset-0 bg-[#020205] text-slate-200 overflow-hidden font-sans select-none">
       {/* Aurora Background */}
       <div className="aurora-container">
         <div className="aurora-layer bg-gradient-to-tr from-[#312e81] via-[#4c1d95] to-transparent opacity-60"
-             style={{ animation: 'aurora-storm-1 18s infinite linear' }} />
+          style={{ animation: 'aurora-storm-1 18s infinite linear' }} />
         <div className="aurora-layer bg-gradient-to-bl from-[#064e3b] via-[#10b981] to-transparent opacity-50"
-             style={{ animation: 'aurora-storm-2 22s infinite linear' }} />
+          style={{ animation: 'aurora-storm-2 22s infinite linear' }} />
         <div className="aurora-layer bg-[radial-gradient(circle_at_center,#2dd4bf,transparent)] opacity-40"
-             style={{ animation: 'aurora-storm-3 12s infinite ease-in-out' }} />
+          style={{ animation: 'aurora-storm-3 12s infinite ease-in-out' }} />
         <div className="aurora-layer bg-gradient-to-r from-[#1e3a8a] to-transparent opacity-30"
-             style={{ animation: 'aurora-storm-1 25s infinite reverse linear' }} />
+          style={{ animation: 'aurora-storm-1 25s infinite reverse linear' }} />
       </div>
 
       {/* 3D Scene Layer */}
@@ -64,13 +79,13 @@ const App: React.FC = () => {
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
           <pointLight position={[-8, 5, -2]} intensity={2.5} color="#10b981" />
           <pointLight position={[8, -5, 2]} intensity={1.5} color="#8b5cf6" />
-          
+
           <Suspense fallback={null}>
-            <Coin3D 
-              isFlipping={isFlipping} 
-              result={lastResult} 
-              headsLabel={headsLabel} 
-              tailsLabel={tailsLabel} 
+            <Coin3D
+              isFlipping={isFlipping}
+              result={lastResult}
+              headsLabel={headsLabel}
+              tailsLabel={tailsLabel}
               hasFlipped={history.length > 0}
             />
             <Environment preset="city" />
@@ -79,36 +94,69 @@ const App: React.FC = () => {
         </Canvas>
       </div>
 
-      {/* Header - 메뉴 버튼 lg 미만에서 노출 */}
+      {/* Header */}
       <nav className={`absolute top-0 w-full h-14 lg:h-16 border-b border-white/5 bg-black/30 backdrop-blur-2xl flex items-center justify-between px-6 lg:px-8 z-50 transition-opacity duration-700 ${isFlipping ? 'opacity-0' : 'opacity-100'}`}>
         <div className="flex items-center space-x-3">
           <div className="w-7 h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-amber-400 to-orange-600 rounded-lg flex items-center justify-center font-black text-slate-900 text-[10px] lg:text-xs shadow-lg">CF</div>
           <h1 className="font-black tracking-tighter text-sm lg:text-lg bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-500 to-yellow-600 uppercase">
-            Coin Master Pro
+            {t.appTitle}
           </h1>
         </div>
-        <button 
-          onClick={() => setShowConfig(!showConfig)}
-          className="lg:hidden p-2 text-slate-400 hover:text-white pointer-events-auto transition-colors"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={showConfig ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"} />
-          </svg>
-        </button>
+        <div className="flex items-center gap-2">
+          {/* Language Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setShowLangMenu(!showLangMenu)}
+              className="flex items-center gap-1.5 px-2 py-1.5 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg text-xs transition-colors pointer-events-auto"
+            >
+              <span>{languageFlags[language]}</span>
+              <span className="hidden sm:inline text-slate-300">{languageNames[language]}</span>
+              <svg className={`w-3 h-3 transition-transform ${showLangMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {showLangMenu && (
+              <div className="absolute right-0 top-full mt-2 bg-slate-900/95 backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl overflow-hidden min-w-[140px] z-[100]">
+                {(Object.keys(languageNames) as Language[]).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => {
+                      setLanguage(lang);
+                      setShowLangMenu(false);
+                    }}
+                    className={`w-full flex items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-white/10 transition-colors ${language === lang ? 'bg-amber-500/20 text-amber-400' : 'text-slate-300'}`}
+                  >
+                    <span>{languageFlags[lang]}</span>
+                    <span>{languageNames[lang]}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setShowConfig(!showConfig)}
+            className="lg:hidden p-2 text-slate-400 hover:text-white pointer-events-auto transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={showConfig ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"} />
+            </svg>
+          </button>
+        </div>
       </nav>
 
       <main className="relative z-10 w-full h-full pointer-events-none">
-        {/* Settings Panel - lg 미만에서는 showConfig가 true일 때만 노출 */}
+        {/* Settings Panel */}
         <aside className={`absolute left-4 right-4 lg:left-8 lg:right-auto top-20 lg:top-24 lg:w-72 pointer-events-auto transition-all duration-500 ease-in-out z-40 
           ${isFlipping ? 'opacity-0 -translate-y-4 lg:-translate-x-[120%]' : 'opacity-100 translate-y-0'} 
           ${!showConfig ? 'max-lg:hidden' : 'block'}`}>
           <div className="bg-slate-900/60 backdrop-blur-2xl p-5 lg:p-6 rounded-[1.5rem] lg:rounded-[2rem] border border-white/10 shadow-2xl">
             <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-4 flex items-center">
-              <span className="w-3 h-[1px] bg-slate-700 mr-2" /> Settings
+              <span className="w-3 h-[1px] bg-slate-700 mr-2" />{t.settings}
             </h2>
             <div className="space-y-4">
               <div className="space-y-1 lg:space-y-2">
-                <label className="text-[9px] font-bold text-amber-500 uppercase tracking-widest px-1">Heads Text</label>
+                <label className="text-[9px] font-bold text-amber-500 uppercase tracking-widest px-1">{t.headsText}</label>
                 <input
                   type="text"
                   value={headsLabel}
@@ -118,7 +166,7 @@ const App: React.FC = () => {
                 />
               </div>
               <div className="space-y-1 lg:space-y-2">
-                <label className="text-[9px] font-bold text-blue-400 uppercase tracking-widest px-1">Tails Text</label>
+                <label className="text-[9px] font-bold text-blue-400 uppercase tracking-widest px-1">{t.tailsText}</label>
                 <input
                   type="text"
                   value={tailsLabel}
@@ -131,25 +179,25 @@ const App: React.FC = () => {
           </div>
         </aside>
 
-        {/* History Panel - lg 미만에서는 showConfig가 true일 때 Settings 아래에 노출 */}
+        {/* History Panel */}
         <aside className={`absolute left-4 right-4 lg:left-auto lg:right-8 top-[380px] lg:top-24 lg:w-72 pointer-events-auto transition-all duration-700 ease-in-out z-30
           ${isFlipping ? 'opacity-0 translate-y-4 lg:translate-x-[120%]' : 'opacity-100 translate-y-0'}
           ${!showConfig ? 'max-lg:hidden' : 'block'}`}>
           <div className="lg:h-[calc(100vh-200px)] max-h-[300px] lg:max-h-none bg-slate-900/60 backdrop-blur-2xl p-5 lg:p-6 rounded-[1.5rem] lg:rounded-[2rem] border border-white/10 shadow-2xl flex flex-col overflow-hidden">
             <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-4 flex items-center">
-              <span className="w-3 h-[1px] bg-slate-700 mr-2" /> Recent Tosses
+              <span className="w-3 h-[1px] bg-slate-700 mr-2" />{t.recentTosses}
             </h2>
             <div className="flex-1 space-y-2 lg:space-y-3 overflow-y-auto pr-1 custom-scrollbar">
               {history.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center opacity-20 text-[9px] font-black uppercase tracking-widest text-center py-4">
-                  No History
+                  {t.noHistory}
                 </div>
               ) : (
                 history.map((item) => (
                   <div key={item.id} className="bg-black/40 p-3 lg:p-4 rounded-xl lg:rounded-2xl border border-white/5 flex justify-between items-center animate-fadeIn shadow-inner">
                     <div className="min-w-0 flex-1">
                       <p className={`text-[10px] lg:text-[12px] font-black ${item.result === 'Heads' ? 'text-amber-500' : 'text-blue-500'}`}>
-                        {item.result.toUpperCase()}
+                        {getLocalizedResult(item.result).toUpperCase()}
                       </p>
                       <p className="text-[8px] lg:text-[9px] text-slate-400 font-bold truncate pr-2 uppercase">{item.label}</p>
                     </div>
@@ -168,7 +216,7 @@ const App: React.FC = () => {
             disabled={isFlipping}
             className="w-full py-3 lg:py-4 bg-white text-black hover:bg-emerald-400 rounded-full text-base lg:text-lg font-black tracking-[0.3em] shadow-[0_20px_50px_rgba(16,185,129,0.2)] active:scale-[0.95] transition-all uppercase"
           >
-            Flip
+            {t.flip}
           </button>
         </div>
       </main>
@@ -176,6 +224,14 @@ const App: React.FC = () => {
       <footer className="absolute bottom-3 w-full flex items-center justify-center text-[7px] lg:text-[8px] text-slate-800 font-mono tracking-[0.4em] lg:tracking-[0.6em] uppercase pointer-events-none">
         Performance.Active // Floating.Active // v5.1
       </footer>
+
+      {/* Click outside to close language menu */}
+      {showLangMenu && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowLangMenu(false)}
+        />
+      )}
     </div>
   );
 };

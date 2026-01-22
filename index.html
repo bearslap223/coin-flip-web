@@ -10,13 +10,13 @@
     <meta name="description" content="온라인 3D 동전 던지기 - 공정한 의사결정을 도와주는 최고의 AI 코인 플립 마스터. 커스텀 텍스트 설정 가능.">
     <meta name="keywords" content="동전던지기, 코인플립, 결정장애, 운세, 랜덤선택, 3D동전">
 
-    <meta property="og:title" content="AI Coin Master Pro - 3D 동전 던지기">
+    <meta property="og:title" content="Coin Master - 3D 동전 던지기">
     <meta property="og:description" content="결정하기 힘들 땐? 가장 아름다운 3D 동전 던지기로 결정하세요!">
-    <meta property="og:image" content="https://your-project.vercel.app/og-image.png">
-    <meta property="og:url" content="https://your-project.vercel.app">
+    <meta property="og:image" content="https://coin-flip-web.vercel.app/og-image.png">
+    <meta property="og:url" content="https://coin-flip-web.vercel.app">
 
-    <link rel="canonical" href="https://your-project.vercel.app">
-    <title>AI Coin Flip Master - Single File</title>
+    <link rel="canonical" href="https://coin-flip-web.vercel.app">
+    <title>Coin Master - 3D 동전 던지기</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -154,42 +154,43 @@
     <div id="root" class="fixed inset-0 bg-[#020205] text-slate-200 overflow-hidden font-sans select-none"></div>
 
     <script type="module">
-        const injectAd = () => {
-            if (document.getElementById('permanent-ad')) return;
+        const injectFooter = () => {
+            if (document.getElementById('site-footer')) return;
 
-            const adDiv = document.createElement('div');
-            adDiv.id = 'permanent-ad';
-            adDiv.style.cssText = `
+            const footerDiv = document.createElement('div');
+            footerDiv.id = 'site-footer';
+            footerDiv.style.cssText = `
                 position: fixed !important;
                 bottom: 0 !important;
                 left: 0 !important;
                 width: 100% !important;
-                height: 80px !important;
+                height: auto !important;
                 background: rgba(0,0,0,0.9) !important;
                 backdrop-filter: blur(15px) !important;
                 display: flex !important;
+                flex-direction: column !important;
                 align-items: center !important;
                 justify-content: center !important;
-                border-top: 1px solid rgba(255,255,255,0.2) !important;
+                border-top: 1px solid rgba(255,255,255,0.1) !important;
                 z-index: 9999999 !important;
                 pointer-events: auto !important;
+                padding: 12px 20px !important;
             `;
-            adDiv.innerHTML = `
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 20px;">
-                    <p style="color: #94a3b8; font-size: 11px; font-family: sans-serif; letter-spacing: 1px; margin-bottom: 4px; font-weight: 600;">
-                        AI Coin Master: The Most Accurate 3D Physics Coin Flip Simulator
-                    </p>
-                    <p style="color: #64748b; font-size: 9px; font-family: sans-serif; line-height: 1.4; max-width: 600px;">
-                        Experience fair decision-making with our advanced physics engine. Perfectly weighted for a true 50/50 chance. 
-                        <span style="color: #475569;">Safe, Fast, and WebGL-powered 3D Simulation.</span>
-                    </p>
+            footerDiv.innerHTML = `
+                <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 8px;">
+                    <a href="/blog/" style="color: #64748b; font-size: 11px; font-family: sans-serif; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#64748b'">블로그</a>
+                    <a href="/privacy.html" style="color: #64748b; font-size: 11px; font-family: sans-serif; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#64748b'">개인정보처리방침</a>
+                    <a href="/terms.html" style="color: #64748b; font-size: 11px; font-family: sans-serif; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#64748b'">이용약관</a>
+                    <a href="/about.html" style="color: #64748b; font-size: 11px; font-family: sans-serif; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#64748b'">서비스 소개</a>
+                    <a href="/contact.html" style="color: #64748b; font-size: 11px; font-family: sans-serif; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#64748b'">문의하기</a>
                 </div>
+                <p style="color: #334155; font-size: 9px; font-family: sans-serif; margin: 0;">© 2026 Coin Master. All rights reserved.</p>
             `;
-            document.body.appendChild(adDiv);
+            document.body.appendChild(footerDiv);
         };
 
-        window.addEventListener('load', injectAd);
-        setTimeout(injectAd, 500);
+        window.addEventListener('load', injectFooter);
+        setTimeout(injectFooter, 500);
     </script>
     <script type="module" src="/index.tsx"></script>
 </body>
